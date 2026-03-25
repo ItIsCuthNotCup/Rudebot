@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RudeBot</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 300px;
+      min-height: 200px;
+      background: #0f0f0f;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+    }
+
+    /* Consent screen */
+    #consent-screen {
+      padding: 20px;
+      display: none;
+    }
+
+    #consent-screen.active {
+      display: block;
+    }
+
+    .consent-warning {
+      color: #ff3333;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .consent-text {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+
+    .consent-btn {
+      width: 100%;
+      background: #ff3333;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .consent-btn:hover {
+      background: #cc2929;
+    }
+
+    /* Settings screen */
+    #settings-screen {
+      padding: 16px;
+      display: none;
+    }
+
+    #settings-screen.active {
+      display: block;
+    }
+
+    .header {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ff3333;
+      margin-bottom: 16px;
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .setting-label {
+      font-size: 13px;
+      color: #ccc;
+    }
+
+    /* Toggle switch */
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #333;
+      border-radius: 12px;
+      transition: background 0.2s;
+    }
+
+    .toggle-slider::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .toggle input:checked + .toggle-slider {
+      background: #ff3333;
+    }
+
+    .toggle input:checked + .toggle-slider::before {
+      transform: translateX(20px);
+    }
+
+    /* Intensity slider */
+    .intensity-section {
+      margin-bottom: 14px;
+    }
+
+    .intensity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .intensity-value {
+      font-size: 11px;
+      color: #ff3333;
+    }
+
+    .intensity-slider {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .intensity-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #ff3333;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .stat-row {
+      background: #1a1a1a;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #666;
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ff3333;
+    }
+
+    .footer {
+      font-size: 10px;
+      color: #444;
+      line-height: 1.4;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="consent-screen">
+    <div class="consent-warning">&#9888;&#65039; Before you continue:</div>
+    <div class="consent-text">
+      RudeBot will comment on websites you visit.<br><br>
+      It is intentionally rude and sarcastic.<br><br>
+      It cannot see your passwords, files, or personal data.<br><br>
+      It only sees the website domain and page title &mdash; nothing else.<br><br>
+      This is a comedy extension. You are consenting to being made fun of.<br><br>
+      By clicking below you confirm you understand this and consent to RudeBot roasting your browsing habits.
+    </div>
+    <button class="consent-btn" id="consent-btn">I Accept (unfortunately)</button>
+  </div>
+
+  <div id="settings-screen">
+    <div class="header">RudeBot</div>
+
+    <div class="setting-row">
+      <span class="setting-label">Enabled</span>
+      <label class="toggle">
+        <input type="checkbox" id="enabled-toggle" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="intensity-section">
+      <div class="intensity-header">
+        <span class="setting-label">Intensity</span>
+        <span class="intensity-value" id="intensity-label">Actively judging you</span>
+      </div>
+      <input type="range" min="1" max="5" value="3" class="intensity-slider" id="intensity-slider">
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-label">Today's Judgments</div>
+      <div class="stat-value" id="today-count">0</div>
+    </div>
+
+    <div class="footer">
+      RudeBot sees only your site domain and page title. Nothing else.
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
