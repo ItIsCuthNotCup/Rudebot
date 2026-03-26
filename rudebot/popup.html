@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 320px;
+      min-height: 400px;
+      background: #0f0f0f;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+    }
+
+    /* Consent screen */
+    #consent-screen {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    #consent-screen h1 {
+      color: #ff3333;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    #consent-screen .warning {
+      color: #ff3333;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    #consent-screen p {
+      color: #ccc;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    #consent-screen .highlight {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    #accept-btn {
+      background: #ff3333;
+      color: #ffffff;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    #accept-btn:hover {
+      background: #e62e2e;
+    }
+
+    /* Settings screen */
+    #settings-screen {
+      padding: 20px;
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    #settings-screen h1 {
+      color: #ff3333;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .setting-label {
+      color: #ccc;
+      font-size: 13px;
+    }
+
+    /* Toggle switch */
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #333;
+      border-radius: 24px;
+      transition: 0.3s;
+    }
+
+    .toggle-slider:before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .toggle input:checked + .toggle-slider {
+      background: #ff3333;
+    }
+
+    .toggle input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Intensity slider */
+    .intensity-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .intensity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .intensity-value {
+      color: #ff3333;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #ff3333;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* Counter */
+    .counter {
+      background: #1a1a1a;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: center;
+    }
+
+    .counter-number {
+      color: #ff3333;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .counter-label {
+      color: #666;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    /* Footer */
+    .footer {
+      color: #444;
+      font-size: 11px;
+      line-height: 1.4;
+      text-align: center;
+      padding-top: 8px;
+      border-top: 1px solid #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <div id="consent-screen">
+    <div class="warning">&#9888;&#65039;</div>
+    <h1>Before you continue:</h1>
+    <p>RudeBot will comment on websites you visit.</p>
+    <p class="highlight">It is intentionally rude and sarcastic.</p>
+    <p>It cannot see your passwords, files, or personal data.</p>
+    <p>It only sees the website domain and page title &mdash; nothing else.</p>
+    <p class="highlight">This is a comedy extension. You are consenting to being made fun of.</p>
+    <p>By clicking the button below you confirm you understand this and consent to RudeBot roasting your browsing habits.</p>
+    <button id="accept-btn">I Accept (unfortunately)</button>
+  </div>
+
+  <div id="settings-screen">
+    <h1>RudeBot</h1>
+
+    <div class="setting-row">
+      <span class="setting-label">Enabled</span>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-enabled" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="intensity-section">
+      <div class="intensity-header">
+        <span class="setting-label">Intensity</span>
+        <span class="intensity-value" id="intensity-label">3 — Actively judging you</span>
+      </div>
+      <input type="range" id="intensity-slider" min="1" max="5" value="3">
+    </div>
+
+    <div class="counter">
+      <div class="counter-number" id="today-count">0</div>
+      <div class="counter-label">Today's Judgments</div>
+    </div>
+
+    <div class="footer">
+      RudeBot sees only your site domain and page title. Nothing else.
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
