@@ -5,10 +5,10 @@ let dismissTimer = null;
 const TOAST_CSS = `
 #rudebot-toast {
   position: relative;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   max-width: 260px;
   padding: 10px 14px;
@@ -16,7 +16,7 @@ const TOAST_CSS = `
   font-size: 12px;
   box-shadow:
     0 4px 24px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.3),
     -1px 0 0 0 rgba(255, 60, 60, 0.3),
     1px 0 0 0 rgba(60, 120, 255, 0.3),
     0 -1px 0 0 rgba(60, 255, 120, 0.2),
@@ -51,7 +51,7 @@ const TOAST_CSS = `
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  background: radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
   pointer-events: none;
 }
 

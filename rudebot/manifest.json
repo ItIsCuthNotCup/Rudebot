@@ -3,7 +3,7 @@
   "name": "RudeBot",
   "version": "1.0.0",
   "description": "An AI that judges your browsing. You asked for this.",
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["storage"],
   "background": {
     "service_worker": "background.js"
   },
